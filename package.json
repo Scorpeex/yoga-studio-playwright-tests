@@ -1,0 +1,31 @@
+{
+  "name": "yoga-studio-playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright E2E test suite for the Yoga Studio CRM (functional / regression / API / non-functional coverage, POM, tagged suites, CI-ready)",
+  "private": true,
+  "keywords": [
+    "playwright",
+    "e2e",
+    "typescript",
+    "page-object-model",
+    "testing"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:list": "playwright test --list",
+    "test:ui": "playwright test --ui",
+    "test:regression": "playwright test --grep @regression",
+    "test:non-functional": "playwright test --grep @non-functional",
+    "test:api": "playwright test --grep @api",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:prod": "playwright test -c playwright.prod.config.js",
+    "test:demo": "playwright test tests/demo"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "dotenv": "^16.4.7",
+    "@types/node": "^22.0.0"
+  }
+}

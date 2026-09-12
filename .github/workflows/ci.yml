@@ -1,0 +1,77 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  collection-check:
+    name: Structure check (--list)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        config: ["", "-c playwright.prod.config.js"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Ensure all specs are parseable and collect
+        run: npx playwright test ${{ matrix.config }} --list --reporter=line
+
+  demo:
+    name: Self-contained demo run
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run demo suite
+        run: npx playwright test tests/demo --reporter=github,html
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+  prod-smoke:
+    name: Production smoke (read-only)
+    runs-on: ubuntu-latest
+    needs: [collection-check]
+    environment:
+      name: production-smoke
+    env:
+      BASE_URL: ${{ vars.BASE_URL }}
+      PROD_USER_PHONE: ${{ secrets.PROD_USER_PHONE }}
+      PROD_USER_PASSWORD: ${{ secrets.PROD_USER_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run production smoke suite
+        run: npx playwright test -c playwright.prod.config.js
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-prod
+          path: playwright-report/
+          retention-days: 14
