@@ -12,17 +12,17 @@ not just raw endpoint counting.
 ## Testing layers
 
 ```
-                    ┌────────────────────────────────────────┐
+                    ┌─────────────────────────────────────────┐
                     │  tests/functional/...                   │  ← user flows UI
                     │  tests/regression/                      │  ← money + isolation
-                    ├────────────────────────────────────────┤
+                    ├─────────────────────────────────────────┤
  API coverage       │  @api tests (direct /api/ calls)        │
  Non-functional     │  @security @non-functional + performance│
-                    └────────────────────────────────────────┘
-                    ┌────────────────────────────────────────┐
+                    └─────────────────────────────────────────┘
+                    ┌─────────────────────────────────────────┐
                     │  tests/smoke (prod, read-only)          │  ← deploy sanity
                     │  tests/demo (self-contained, CI)        │  ← CI honesty
-                    └────────────────────────────────────────┘
+                    └─────────────────────────────────────────┘
 ```
 
 1. **Functional UI** — Playwright drives the real browser over the page
