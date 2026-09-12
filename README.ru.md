@@ -46,6 +46,11 @@ scripts/                 # утилиты (например, скрипт раз
 docs/                    # стратегия тестирования и тест-планы
 ```
 
+## Документация
+
+- [Стратегия тестирования](docs/TEST-STRATEGY.ru.md) · [Test Strategy (EN)](docs/TEST-STRATEGY.md)
+- Тест-планы (RU): [Вход](docs/test-plans/login.md) · [Регистрация](docs/test-plans/register.md) · [Календарь и запись](docs/test-plans/calendar.md)
+
 ## Быстрый старт
 
 ```bash

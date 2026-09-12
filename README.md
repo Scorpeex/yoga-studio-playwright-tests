@@ -46,6 +46,11 @@ scripts/                 # tooling (e.g. suite tagging script)
 docs/                    # test strategy + test plans
 ```
 
+## Documentation
+
+- [Test Strategy](docs/TEST-STRATEGY.md) · [Стратегия тестирования (RU)](docs/TEST-STRATEGY.ru.md)
+- Test plans (RU): [Login](docs/test-plans/login.md) · [Registration](docs/test-plans/register.md) · [Calendar & enrollment](docs/test-plans/calendar.md)
+
 ## Getting started
 
 ```bash

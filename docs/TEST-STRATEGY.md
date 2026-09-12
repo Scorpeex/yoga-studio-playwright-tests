@@ -1,4 +1,5 @@
-# Test Strategy
+# [(English version) Test Strategy](TEST-STRATEGY.md)
+# [(Русская версия) Стратегия тестирования](TEST-STRATEGY.ru.md)
 
 ## Goal
 
