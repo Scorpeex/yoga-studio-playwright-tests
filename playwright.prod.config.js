@@ -3,12 +3,13 @@ const { defineConfig, devices } = require('@playwright/test');
 require('dotenv/config');
 
 /**
- * Production smoke configuration.
+ * Optional production smoke configuration — a SUPPLEMENT to the main suite,
+ * which runs the full set against demo.alenaproyoga.ru.
  *
- * Runs ONLY read-only tests from tests/smoke/ against the live application.
- * Credentials for dedicated smoke users are expected in the environment
- * (see .env.example):
- *   BASE_URL            — https://your-app.example.com
+ * This profile runs ONLY the read-only tests from tests/smoke/ against the
+ * LIVE application (alenaproyoga.ru). Credentials for dedicated smoke users
+ * are expected in the environment (see .env.example):
+ *   BASE_URL            — https://alenaproyoga.ru (default)
  *   PROD_USER_PHONE     — dedicated test student phone
  *   PROD_USER_PASSWORD  — dedicated test student password
  *

@@ -10,8 +10,9 @@ End-to-end test suite for a Yoga Studio CRM web application, built with
 
 **362 tests** across functional, API, regression, security and non-functional
 categories. Tests are organised into domain folders, tagged by category,
-reuse a shared Page Object Model, and run against a test environment — plus a
-read-only smoke suite for production.
+reuse a shared Page Object Model, and run the **full suite** against the demo
+subdomain `demo.alenaproyoga.ru` — plus an optional read-only smoke suite for
+production.
 
 ## What is covered
 
@@ -22,7 +23,7 @@ read-only smoke suite for production.
 | Regression (65) | Core business flows, money lifecycle, multi-user isolation | `@regression` |
 | Security (34) | Access boundaries, role isolation, guest redirects | `@security` |
 | Non-functional (19) | Performance budgets, robustness / idempotency, CSRF, accessibility basics | `@non-functional` |
-| Smoke — production (7) | Read-only checks against the live application | `@smoke` |
+| Smoke — production (7) | Read-only checks against the live app (optional) | `@smoke` |
 
 Categories are marked with
 [Playwright tags](https://playwright.dev/docs/test-annotations#tag-tests) on
@@ -58,13 +59,15 @@ npm ci
 npx playwright install chromium
 ```
 
-Create `.env` from `.env.example` (optional for local runs — sensible defaults
-point to a local test server on `127.0.0.1:8003`).
+Create `.env` from `.env.example` (optional — sensible defaults point to the
+demo subdomain `https://demo.alenaproyoga.ru`, where the **full suite** runs:
+every test-only endpoint and the VK / YooKassa stubs are available, so nothing
+needs to be skipped).
 
-### Run against the test environment
+### Run the full suite against the demo subdomain
 
 ```bash
-npm test                 # full suite
+npm test                 # full suite (demo.alenaproyoga.ru)
 npm run test:regression  # --grep @regression
 npm run test:api         # --grep @api
 npm run test:non-functional
@@ -72,20 +75,26 @@ npm run test:headed      # visible browser
 npm run test:ui          # Playwright UI mode
 ```
 
-### Run against production (read-only smoke)
+Override the target with `BASE_URL` to run locally (e.g. a Django test server):
+
+```bash
+BASE_URL=http://127.0.0.1:8003/ npm test
+```
+
+### Production smoke (optional, read-only)
 
 ```bash
 # .env:
-#   BASE_URL=https://your-app.example.com
+#   BASE_URL=https://alenaproyoga.ru
 #   PROD_USER_PHONE=+7...        # dedicated smoke-test student
 #   PROD_USER_PASSWORD=...
 npm run test:prod
 ```
 
-The production config (`playwright.prod.config.js`) only picks up `tests/smoke/`
-and is entirely read-only — no test users, bookings or orders are created.
-It runs with a single worker and is **skipped automatically** when no
-credentials are provided (`PROD_USER_*`).
+The production config (`playwright.prod.config.js`) is a supplement to the main
+suite — it only picks up `tests/smoke/` and is entirely read-only: no test
+users, bookings or orders are created. It runs with a single worker and is
+**skipped automatically** when no credentials are provided (`PROD_USER_*`).
 
 ## Reports & debugging
 
