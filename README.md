@@ -2,8 +2,8 @@
 [![Playwright](https://img.shields.io/badge/Playwright-1.62.1-2bd4ae)](https://playwright.dev)
 ![Tests](https://img.shields.io/badge/tests-362-blue)
 
-# [Yoga Studio — Playwright E2E Test Suite](README.md)
-# [Йога-студия — Playwright E2E тесты](README.ru.md)
+# [(English version) Yoga Studio — Playwright E2E Test Suite](README.md)
+# [(Русская версия) Йога-студия — Playwright E2E тесты](README.ru.md)
 
 End-to-end test suite for a Yoga Studio CRM web application, built with
 [Playwright](https://playwright.dev) + TypeScript.
