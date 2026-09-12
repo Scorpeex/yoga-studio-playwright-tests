@@ -1,8 +1,10 @@
-# Yoga Studio — Playwright E2E Test Suite
+# [Yoga Studio — Playwright E2E Test Suite](https://github.com/Scorpeex/yoga-studio-playwright-tests)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Scorpeex/yoga-studio-playwright-tests/ci.yml?branch=main&label=CI)](https://github.com/Scorpeex/yoga-studio-playwright-tests/actions/workflows/ci.yml)
 [![Playwright](https://img.shields.io/badge/Playwright-1.62.1-2bd4ae)](https://playwright.dev)
 ![Tests](https://img.shields.io/badge/tests-362-blue)
+
+**Read this in:** [English](README.md) · [Русский](README.ru.md)
 
 End-to-end test suite for a Yoga Studio CRM web application, built with
 [Playwright](https://playwright.dev) + TypeScript.
@@ -11,8 +13,6 @@ End-to-end test suite for a Yoga Studio CRM web application, built with
 categories. Tests are organised into domain folders, tagged by category,
 reuse a shared Page Object Model, and run against a test environment — plus a
 read-only smoke suite for production.
-
-- [Русская версия](README.ru.md)
 
 ## What is covered
 

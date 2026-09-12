@@ -1,8 +1,10 @@
-# Yoga Studio — Playwright E2E тесты
+# [Yoga Studio — Playwright E2E тесты](https://github.com/Scorpeex/yoga-studio-playwright-tests)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Scorpeex/yoga-studio-playwright-tests/ci.yml?branch=main&label=CI)](https://github.com/Scorpeex/yoga-studio-playwright-tests/actions/workflows/ci.yml)
 [![Playwright](https://img.shields.io/badge/Playwright-1.62.1-2bd4ae)](https://playwright.dev)
 ![Tests](https://img.shields.io/badge/tests-362-blue)
+
+**Языки:** [Русский](README.ru.md) · [English](README.md)
 
 Набор E2E-тестов для CRM йога-студии на [Playwright](https://playwright.dev) +
 TypeScript.
@@ -11,8 +13,6 @@ TypeScript.
 нефункциональные. Тесты разложены по папкам доменов, помечены тегами категорий,
 используют общий Page Object Model и гоняются против тестового окружения —
 плюс read-only смоук-набор для продакшена.
-
-- [English version](README.md)
 
 ## Что покрыто
 
