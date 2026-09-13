@@ -81,7 +81,7 @@ Override the target with `BASE_URL` to run locally (e.g. a Django test server):
 BASE_URL=http://127.0.0.1:8003/ npm test
 ```
 
-### Production smoke (optional, read-only)
+### Production smoke (optional, read-only, not part of CI)
 
 ```bash
 # .env:
@@ -115,9 +115,17 @@ HTML reports are published as CI artifacts.
    every spec parses and is wired correctly).
 2. **Demo run** — the self-contained `tests/demo` suite needs no backend; it
    starts an in-test HTTP server and verifies POM usage, API mocking and
-   console-error guards. This keeps CI honest without a seeded environment.
-3. **Production smoke** (workflow_dispatch + environment-secret protected) —
-   read-only checks against the live app using GitHub secrets.
+   console-error guards. This is the fast signal on every push.
+
+The **full suite** runs against the demo subdomain — and anyone can watch it
+live: on the [Actions page](https://github.com/Scorpeex/yoga-studio-playwright-tests/actions/workflows/ci.yml)
+press **Run workflow** (the job is `workflow_dispatch`, so it is publicly
+triggerable, e.g. by an HR reviewing this portfolio). It also runs nightly via a
+cron schedule. Before the run the demo database is reset through the app's own
+test endpoint `POST /api/demo/reset-db/` (a DEMO_MODE-only flush + seed) so
+leftover data from previous runs can never break it, then the whole suite runs
+against `https://demo.alenaproyoga.ru/`. The HTML report is uploaded as a CI
+artifact.
 
 ## How to add a test
 

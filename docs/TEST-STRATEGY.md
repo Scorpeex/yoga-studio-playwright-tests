@@ -21,8 +21,8 @@ not just raw endpoint counting.
  Non-functional     │  @security @non-functional + performance│
                     └─────────────────────────────────────────┘
                     ┌─────────────────────────────────────────┐
-                    │  tests/smoke (prod, read-only)          │  ← deploy sanity
-                    │  tests/demo (self-contained, CI)        │  ← CI honesty
+                    │  demo.alenaproyoga.ru (full suite)      │  ← real stand, stubs
+                    │  tests/demo (self-contained, CI)        │  ← fast signal on push
                     └─────────────────────────────────────────┘
 ```
 
@@ -36,23 +36,31 @@ not just raw endpoint counting.
    robustness / idempotency (duplicate payments, malformed webhooks, double
    cancels), security boundaries (guest redirects, role isolation, CSRF) and
    baseline accessibility checks.
-5. **Production smoke** — a deliberately *read-only* suite (`tests/smoke/`)
-   that runs against the live application with dedicated credentials and never
-   mutates data.
+5. **Primary run — demo subdomain**: the full suite runs on
+   `demo.alenaproyoga.ru` — a DEMO_MODE application on a dedicated seeded
+   database (`demo_db.sqlite3`, `settings_demo`) with test-only endpoints
+   (`/api/auth/test/*`) and VK / YooKassa stubs, so nothing has to be skipped.
 
 ## Reliability principles
 
 - **Deterministic data**: tests spawn their own users/events via test-only API
-  helpers and clean up afterwards; no dependence on shared state.
+  helpers (unique phones, date offsets) and clean up afterwards (`deleteTestUser`,
+  `deleteCalendarEvent`, idempotent guards). The only shared dependence is the
+  canonical seed (test users s5/s6, tariffs, admin/moderator) which is provided by
+  the test server / DEMO_MODE. The demo database is separate
+  (`demo_db.sqlite3`) and seeded with `seed_data`; CI resets it (flush + seed)
+  before every full run for full determinism.
 - **Date isolation**: calendar scenarios use far-future dates, each suite on its
   own day-offset, so parallel workers never collide.
 - **Idempotent setup**: helpers (`setBalance`, `purchaseSubscription`, …) tolerate
   leftovers from interrupted runs.
 - **Self-healing selectors**: UI is driven by `data-test-id` attributes,
   not brittle CSS paths.
-- **CI honesty**: the full UI+API suite needs a seeded test environment, so CI
-  runs (a) a `--list` collection check, (b) the backend-free `tests/demo`, and
-  (c) production smoke when credentials are supplied.
+- **CI**: on every push — a quick collection check (`--list`) and the
+  self-contained `tests/demo`. The full suite runs on the demo stand via a
+  button (`workflow_dispatch` — runnable by an HR reviewing the portfolio) and a
+  nightly schedule; the database is reset beforehand through the app's own
+  DEMO_MODE-only endpoint `POST /api/demo/reset-db/` (flush + seed).
 
 ## Naming & structure
 
